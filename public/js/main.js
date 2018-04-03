@@ -24,6 +24,17 @@ var edit = document.getElementById('edit');
 var activeChild;
 var goAhead = false;
 
+function check() {
+    while(contactList.hasChildNodes()) {
+        contactList.removeChild(contactList.firstChild);
+    }
+    for(var key in addressBook) {
+        var contactListChild = document.createElement('p');
+        contactListChild.innerHTML = addressBook[key].name;
+        contactList.appendChild(contactListChild);
+    }
+}
+
 if(localStorage.getItem('addressBook')) {
     addressBook = JSON.parse(localStorage.getItem('addressBook'));
 } else {
@@ -82,19 +93,13 @@ viewGoBack.addEventListener('click', function(){
     viewName.removeChild(viewName.childNodes[3]);
     viewPhoneNumber.removeChild(viewPhoneNumber.childNodes[3]);
     viewEmail.removeChild(viewEmail.childNodes[3]);
-    while(contactList.hasChildNodes()) {
-        contactList.removeChild(contactList.firstChild);
-    }
-    for(var key in addressBook) {
-        var contactListChild = document.createElement('p');
-        contactListChild.innerHTML = addressBook[key].name;
-        contactList.appendChild(contactListChild);
-    }
+    check();
     viewContact.style.display = 'none';
     contacts.style.display = 'block';
 });
 addGoBack.addEventListener('click', function(){
     form.reset();
+    check();
     addContact.style.display = 'none';
     contacts.style.display = 'block';
 });
